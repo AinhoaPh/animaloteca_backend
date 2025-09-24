@@ -1,0 +1,39 @@
+### Obtener todos los usuarios
+GET http://localhost:3000/api/v1/usuarios
+Content-Type: application/json
+
+###
+
+### Obtener un usuario por ID (REEMPLAZA el ID por uno real)
+GET http://localhost:3000/api/v1/usuarios/68418b9bec63c8c69435bd2d
+Content-Type: application/json
+
+###
+
+### Crear un nuevo usuario
+POST http://localhost:3000/api/v1/usuarios
+Content-Type: application/json
+
+{
+    "name": "Blue",
+    "email": "blue.bbsauro@example.com",
+    "username": "Bbsauro"
+}
+
+###
+
+### Actualizar un usuario (REEMPLAZA el ID por uno real)
+PUT http://localhost:3000/api/v1/usuarios/68418b9bec63c8c69435bd2d
+Content-Type: application/json
+
+{
+    "name": "Blue Actualizado",
+    "email": "blue.actualizado@example.com",
+    "username": "blueNuevo"
+}
+
+###
+
+### Eliminar un usuario (REEMPLAZA el ID por uno real)
+DELETE http://localhost:3000/api/v1/usuarios/68418b9bec63c8c69435bd2d
+Content-Type: application/json

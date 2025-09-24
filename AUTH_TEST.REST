@@ -1,0 +1,96 @@
+@dominio =http://localhost:3001
+@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODdhN2RmZjI1ZjY0OTM0OGNhN2NlNGYiLCJuYW1lIjoiVXN1YXJpb1BydWViYSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc1Mjg1ODQzMCwiZXhwIjoxNzUyODY1NjMwfQ.B1FaBXH9vKI1F7wQi3vjkaHgefJJEVeFuFyRID6HEN0
+
+### REGISTRAR NUEVO USUARIO
+POST {{dominio}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "name": "UsuarioPrueba",
+  "email": "prueba@correo.com",
+  "password": "Password123!"
+}
+
+### INICIAR SESIÓN
+POST {{dominio}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "prueba@correo.com",
+  "password": "Password123!"
+}
+
+### OBTENER USUARIO ACTUAL
+GET {{dominio}}/api/v1/auth/me
+Authorization: Bearer {{token}}
+
+### OBTENER TODOS LOS USUARIOS
+GET {{dominio}}/api/v1/usuarios
+Authorization: Bearer {{token}}
+
+### OBTENER USUARIO POR ID
+GET {{dominio}}/api/v1/usuarios/_id
+Authorization: Bearer {{token}}
+
+### CREAR NUEVO USUARIO
+POST {{dominio}}/api/v1/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "NuevoUsuario",
+  "email": "nuevo@correo.com",
+  "password": "Password123!"
+}
+
+### ACTUALIZAR USUARIO POR ID
+PUT {{dominio}}/api/v1/usuarios/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "UsuarioActualizado",
+  "email": "actualizado@correo.com"
+}
+
+### ELIMINAR USUARIO POR ID
+DELETE {{dominio}}/api/v1/usuarios/:uid
+Authorization: Bearer {{token}}
+
+### OBTENER TODAS LAS PROTECTORAS
+GET {{dominio}}/api/v1/protectoras
+Authorization: Bearer {{token}}
+
+### OBTENER PROTECTORA POR ID
+GET {{dominio}}/api/v1/protectoras/
+Authorization: Bearer {{token}}
+
+### CREAR PROTECTORA
+POST {{dominio}}/api/v1/protectoras
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "ProtectoraPrueba",
+  "direccion": "Calle Falsa 123",
+  "telefono": "123456789",
+  "email": "contacto@protectora.com"
+}
+
+### ACTUALIZAR PROTECTORA POR ID
+PUT {{dominio}}/api/v1/protectoras/{id_protectora}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "ProtectoraActualizada",
+  "telefono": "987654321"
+}
+
+### ELIMINAR PROTECTORA POR ID
+DELETE {{dominio}}/api/v1/protectoras/:uid
+Authorization: Bearer {{token}}
+
+### OBTENER TODAS LAS RECETAS
+GET {{dominio}}/api/v1/recetas
+Authorization: Bearer {{token}}
