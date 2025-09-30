@@ -4,6 +4,7 @@ import cors from 'cors';
 import { connectDB } from './db/mongoose.js';
 import { router } from './routes/index.routes.js';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware.js';
+import { FRONTEND_URL } from "./config/config.js";
 
 const app = express();
 
@@ -21,8 +22,7 @@ app.use("/", express.static("public")); // Middleware para servir archivos está
 //app.use("/landing", express.static("public/landing")); 
 //app.use("/landing")// // Middleware de autenticación para la ruta /landing
  app.get("/", (req, res) => {
-   res.status(200).send(`Bienvenido a  <a href="http://localhost:5173">Animaloteca</a> para usar la aplicación</p>
-  `);
+   res.status(200).send(`Bienvenido a  <a href="${FRONTEND_URL}" target="_blank">Animaloteca</a> para usar la aplicación</p>`);
  });
 
 

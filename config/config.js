@@ -10,3 +10,5 @@ export const CLUSTER = process.env.CLUSTER || "cluster.mongodb.net";
 export const DATABASE = process.env.DATABASE ||"database"; // ← nombre de la base de datos
 
 export const JWT_SECRET = process.env.JWT_SECRET || "clave-supersecreta";
+
+export const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
