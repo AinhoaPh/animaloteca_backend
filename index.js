@@ -11,7 +11,12 @@ const app = express();
 // funciones intermedias para modificar req,res
 
 
-app.use(cors()); // Middleware para permitir solicitudes desde otros dominios (CORS)
+app.use(cors(
+  {
+    origin: [FRONTEND_URL, "http://localhost:5173"],
+    credentials: true, // opcional en tu caso; puedes dejarlo
+  }
+)); // Middleware para permitir solicitudes desde otros dominios (CORS)
 app.use(express.json()); // Middleware para parsear JSON en el cuerpo de las solicitudes funcion que se ejecuta en un cicl de vida d nuetsr consulta y podria modificar el req o el res.(procesa cualquier body que este en JSON )
 app.use(express.urlencoded({ extended: true })); // Middleware para parsear datos de formularios (application/x-www-form-urlencoded)
 
