@@ -10,38 +10,44 @@ const ResponseAPI = {
 
 
 export const getProtectoras = async (req, res, next) => {
-  try{
-  
+  try {
+    const { comunidad, categoria, nombre, page = 1, limit = 6 } = req.query;
 
-    const { comunidad, categoria, nombre } = req.query;
-
-    // Crear un objeto de consulta vacío
     const query = {};
-   
-
-    // Añadir filtros si existen
     if (comunidad) query.comunidad = comunidad;
     if (categoria) query.categoria = categoria;
     if (nombre) query.nombre = new RegExp(nombre, "i");
-    
+
     console.log("Query recibido:", query);
-   
-    const protectoras = await Protectora.find(query);
 
-    console.log("Obteniendo todos los Protectoras");
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+    const skip = (pageNumber - 1) * limitNumber;
 
+    const protectoras = await Protectora.find(query)
+      .skip(skip)
+      .limit(limitNumber);
 
+    const total = await Protectora.countDocuments(query);
+    const totalPages = Math.ceil(total / limitNumber);
+    const next = pageNumber < totalPages ? pageNumber + 1 : null;
+    const prev = pageNumber > 1 ? pageNumber - 1 : null;
 
-    ResponseAPI.msg="Protectoras obtenidos";
+    ResponseAPI.msg = "Protectoras obtenidas correctamente";
     ResponseAPI.data = protectoras;
     ResponseAPI.status = "ok";
+    ResponseAPI.info = {
+      count: total,
+      pages: totalPages,
+      next,
+      prev
+    };
 
-    res.status(200).json(ResponseAPI)
-  }catch(e){
-    next(e); 
+    res.status(200).json(ResponseAPI);
+  } catch (e) {
+    next(e);
   }
-  
-}
+};
 
 export const getProtectorasById = async (req, res, next) => {
   try{
@@ -139,30 +145,4 @@ export const deleteProtectora = async (req, res, next) => {
     next(e);
   }
 };
-
-
-// ============================
-// FILTROS BÁSICOS
-// ============================
-// // ============================
-// // OPERADORES COMUNES
-// // ============================
-
-// /*
-// $eq   → igual a
-// $ne   → distinto de
-// $gt   → mayor que
-// $gte  → mayor o igual que
-// $lt   → menor que
-// $lte  → menor o igual que
-// $in   → valor incluido en un array
-// $nin  → valor NO incluido en un array
-// $and  → todas las condiciones deben cumplirse
-// $or   → al menos una condición debe cumplirse
-// */
-
-// const mayoresDeEdad = await Protectora.find({ edad: { $gt: 18 } }); // edad > 18
-// const menoresOIgualesA18 = await Protectora.find({ edad: { $lte: 18 } }); // edad <= 18
-// const nombreExacto = await Protectora.find({ name: { $eq: "Blue" } }); // name === "Blue"
-// const distintoDeNombre = await Protectora.find({ name: { $ne: "Juan" } }); // name !== "Juan"
 

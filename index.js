@@ -14,7 +14,7 @@ const app = express();
 app.use(cors(
   {
     origin: [FRONTEND_URL, "http://localhost:5173"],
-    credentials: true, // opcional en tu caso; puedes dejarlo
+    credentials: true, 
   }
 )); // Middleware para permitir solicitudes desde otros dominios (CORS)
 app.use(express.json()); // Middleware para parsear JSON en el cuerpo de las solicitudes funcion que se ejecuta en un cicl de vida d nuetsr consulta y podria modificar el req o el res.(procesa cualquier body que este en JSON )
