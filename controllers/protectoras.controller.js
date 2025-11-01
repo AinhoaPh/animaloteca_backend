@@ -10,44 +10,38 @@ const ResponseAPI = {
 
 
 export const getProtectoras = async (req, res, next) => {
-  try {
-    const { comunidad, categoria, nombre, page = 1, limit = 6 } = req.query;
+  try{
+  
 
+    const { comunidad, categoria, nombre } = req.query;
+
+    // Crear un objeto de consulta vacío
     const query = {};
+   
+
+    // Añadir filtros si existen
     if (comunidad) query.comunidad = comunidad;
     if (categoria) query.categoria = categoria;
     if (nombre) query.nombre = new RegExp(nombre, "i");
-
+    
     console.log("Query recibido:", query);
+   
+    const protectoras = await Protectora.find(query);
 
-    const pageNumber = parseInt(page);
-    const limitNumber = parseInt(limit);
-    const skip = (pageNumber - 1) * limitNumber;
+    console.log("Obteniendo todos los Protectoras");
 
-    const protectoras = await Protectora.find(query)
-      .skip(skip)
-      .limit(limitNumber);
 
-    const total = await Protectora.countDocuments(query);
-    const totalPages = Math.ceil(total / limitNumber);
-    const next = pageNumber < totalPages ? pageNumber + 1 : null;
-    const prev = pageNumber > 1 ? pageNumber - 1 : null;
 
-    ResponseAPI.msg = "Protectoras obtenidas correctamente";
+    ResponseAPI.msg="Protectoras obtenidos";
     ResponseAPI.data = protectoras;
     ResponseAPI.status = "ok";
-    ResponseAPI.info = {
-      count: total,
-      pages: totalPages,
-      next,
-      prev
-    };
 
-    res.status(200).json(ResponseAPI);
-  } catch (e) {
-    next(e);
+    res.status(200).json(ResponseAPI)
+  }catch(e){
+    next(e); 
   }
-};
+  
+}
 
 export const getProtectorasById = async (req, res, next) => {
   try{
