@@ -58,7 +58,7 @@ export const getProtectorasById = async (req, res, next) => {
     }
   
         ResponseAPI.msg="Protectora encontrada"
-        ResponseAPI.data = protectoras;
+        ResponseAPI.data = protectoras, info;
     res.status(200).json(ResponseAPI);
   }catch(e){
     next(e); 
