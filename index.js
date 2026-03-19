@@ -20,8 +20,6 @@ app.use(cors(
 app.use(express.json()); // Middleware para parsear JSON en el cuerpo de las solicitudes funcion que se ejecuta en un cicl de vida d nuetsr consulta y podria modificar el req o el res.(procesa cualquier body que este en JSON )
 app.use(express.urlencoded({ extended: true })); // Middleware para parsear datos de formularios (application/x-www-form-urlencoded)
 
-app.use("/", express.static("public")); // Middleware para servir archivos estáticos desde la carpeta "public"
-//app-use("/endpoint", express.static("carpeta-de-mis-archivos-estaticos")); // Middleware para servir archivos estáticos desde una carpeta específica
 
 // Servir archivos estáticos desde la carpeta "public/landing"
 //app.use("/landing", express.static("public/landing")); 
@@ -30,7 +28,9 @@ app.use("/", express.static("public")); // Middleware para servir archivos está
    res.status(200).send(`Bienvenido a  <a href="${FRONTEND_URL}" target="_blank">Animaloteca</a> para usar la aplicación</p>`);
  });
 
-
+ app.use("/", express.static("public")); // Middleware para servir archivos estáticos desde la carpeta "public"
+ //app-use("/endpoint", express.static("carpeta-de-mis-archivos-estaticos")); // Middleware para servir archivos estáticos desde una carpeta específica
+ 
 // app.get("/verlogs", (req, res) => {
 //   res.json(logs)
 // });
