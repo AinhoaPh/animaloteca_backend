@@ -13,33 +13,75 @@ export const getProtectoras = async (req, res, next) => {
   try{
   
 
-    const { comunidad, categoria, nombre } = req.query;
+  //   const { comunidad, categoria, nombre } = req.query;
 
-    // Crear un objeto de consulta vacío
-    const query = {};
+  //   // Crear un objeto de consulta vacío
+  //   const query = {};
    
 
-    if (comunidad) query.comunidad = comunidad;
-    if (categoria) query.categoria = new RegExp(categoria, "i");
-    if (nombre) query.nombre = new RegExp(nombre, "i");
+  //   if (comunidad) query.comunidad = comunidad;
+  //   if (categoria) query.categoria = new RegExp(categoria, "i");
+  //   if (nombre) query.nombre = new RegExp(nombre, "i");
     
-    console.log("Query recibido:", query);
+  //   console.log("Query recibido:", query);
    
-    const protectoras = await Protectora.find(query);
+  //   const protectoras = await Protectora.find(query);
 
-    console.log("Obteniendo todos los Protectoras");
+  //   console.log("Obteniendo todos los Protectoras");
 
 
 
-    ResponseAPI.msg="Protectoras obtenidos";
-    ResponseAPI.data = protectoras;
-    ResponseAPI.status = "ok";
+  //   ResponseAPI.msg="Protectoras obtenidos";
+  //   ResponseAPI.data = protectoras;
+  //   ResponseAPI.status = "ok";
 
-    res.status(200).json(ResponseAPI)
-  }catch(e){
-    next(e); 
-  }
-  
+  //   res.status(200).json(ResponseAPI)
+  // }catch(e){
+  //   next(e); 
+  // }
+  const {
+    comunidad,
+    categoria,
+    nombre,
+    page = 1,
+    limit = 4
+  } = req.query;
+
+  const query = {};
+
+  if (comunidad) query.comunidad = comunidad;
+  if (categoria) query.categoria = { $regex: categoria, $options: "i" };
+  if (nombre) query.nombre = { $regex: nombre, $options: "i" };
+
+  const pageNum = Number(page);
+  const limitNum = Number(limit);
+  const skip = (pageNum - 1) * limitNum;
+
+  const totalDocs = await Protectora.countDocuments(query);
+
+  const protectoras = await Protectora.find(query)
+    .skip(skip)
+    .limit(limitNum);
+
+  const totalPages = Math.ceil(totalDocs / limitNum);
+
+  res.status(200).json({
+    status: "ok",
+    msg: "Protectoras obtenidas correctamente",
+    data: protectoras,
+    info: {
+      count: totalDocs,
+      pages: totalPages,
+      current: pageNum,
+      perPage: limitNum,
+      next: pageNum < totalPages ? pageNum + 1 : null,
+      prev: pageNum > 1 ? pageNum - 1 : null
+    }
+  });
+} catch (e) {
+  next(e);
+}
+ 
 }
 
 export const getProtectorasById = async (req, res, next) => {
