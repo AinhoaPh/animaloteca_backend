@@ -19,9 +19,8 @@ export const getProtectoras = async (req, res, next) => {
     const query = {};
    
 
-    // Añadir filtros si existen
     if (comunidad) query.comunidad = comunidad;
-    if (categoria) query.categoria = categoria;
+    if (categoria) query.categoria = new RegExp(categoria, "i");
     if (nombre) query.nombre = new RegExp(nombre, "i");
     
     console.log("Query recibido:", query);
